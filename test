@@ -43,3 +43,29 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
 
 kubectl -n ingress-nginx get deployment ingress-nginx-controller \
   -o jsonpath='{.spec.template.spec.containers[0].args}'
+
+
+
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myapp-service
+            port:
+              number: 443
