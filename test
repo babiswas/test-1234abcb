@@ -5,3 +5,25 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx \
   --create-namespace \
   --set controller.extraArgs.enable-ssl-passthrough=""
+
+
+controller:
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: true
+
+  extraArgs:
+    enable-ssl-passthrough: ""
+
+  service:
+    enabled: true
+    type: LoadBalancer
+
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "external"
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+      service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+
+    externalTrafficPolicy: Local
