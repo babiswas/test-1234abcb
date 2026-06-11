@@ -37,3 +37,9 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx \
   --create-namespace \
   -f values.yaml
+
+
+
+
+kubectl -n ingress-nginx get deployment ingress-nginx-controller \
+  -o jsonpath='{.spec.template.spec.containers[0].args}'
